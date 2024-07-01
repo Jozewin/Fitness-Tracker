@@ -35,30 +35,27 @@ import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun onBoardingScreen(
-    onEvents: (OnBoardingScreenEvents) -> Unit
+    //onEvents: (OnBoardingScreenEvents) -> Unit,
+
+    
 ) {
-    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Column(
-            verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Button(
-                onClick = {
-                    onEvents(OnBoardingScreenEvents.SaveAppEntry)
-                },
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+    ) {
+        Spacer(modifier = Modifier.height(120.dp))
+        onBoardingScreenTitle(modifier = Modifier.fillMaxWidth())
+        Spacer(modifier = Modifier.height(90.dp))
 
-                ) {
-
-                Text(text = "Click Here")
-            }
-        }
+        onBoardingScreenData()
+        
     }
 
 }
-
 @Composable
 fun onBoardingScreenTitle(modifier: Modifier = Modifier) {
     Box(
@@ -90,27 +87,25 @@ fun onBoardingScreenTitle(modifier: Modifier = Modifier) {
 
 @Composable
 fun onBoardingScreenData(
+    userDetailsViewModel: OnBoardingScreenViewModel = hiltViewModel()
 
 ) {
+    var name by remember { mutableStateOf(TextFieldValue(userDetailsViewModel.userDetails?.name ?: "")) }
+    var age by remember { mutableStateOf(TextFieldValue(userDetailsViewModel.userDetails?.age?.toString() ?: "")) }
+    var weight by remember { mutableStateOf(TextFieldValue(userDetailsViewModel.userDetails?.weight?.toString() ?: "")) }
+
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(32.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        var name by remember { mutableStateOf(TextFieldValue("")) }
-        var age by remember { mutableStateOf(TextFieldValue()) }
-        var weight by remember { mutableStateOf(TextFieldValue()) }
-
         OutlinedTextField(
             value = name,
-            onValueChange = {
-                name = it
-            },
-            label = { Text(text = "Name") },
-            placeholder = { Text(text = "Enter your name") },
-            modifier = Modifier
-                .padding(bottom = 16.dp),
+            onValueChange = { name = it },
+            label = { Text("Name") },
+            placeholder = { Text("Enter your name") },
+            modifier = Modifier.padding(bottom = 16.dp),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Text,
                 imeAction = ImeAction.Next
@@ -119,13 +114,10 @@ fun onBoardingScreenData(
         )
         OutlinedTextField(
             value = age,
-            onValueChange = {
-                age = it
-            },
-            label = { Text(text = "Age") },
-            placeholder = { Text(text = "Enter your age") },
-            modifier = Modifier
-                .padding(bottom = 16.dp),
+            onValueChange = { age = it },
+            label = { Text("Age") },
+            placeholder = { Text("Enter your age") },
+            modifier = Modifier.padding(bottom = 16.dp),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Next
@@ -133,45 +125,36 @@ fun onBoardingScreenData(
         )
         OutlinedTextField(
             value = weight,
-            onValueChange = {
-                weight = it
-            },
-            label = { Text(text = "Weight") },
-            placeholder = { Text(text = "Enter your weight") },
-            modifier = Modifier
-                .padding(bottom = 16.dp),
+            onValueChange = { weight = it },
+            label = { Text("Weight") },
+            placeholder = { Text("Enter your weight") },
+            modifier = Modifier.padding(bottom = 16.dp),
             keyboardOptions = KeyboardOptions(
                 keyboardType = KeyboardType.Number,
                 imeAction = ImeAction.Done
             )
         )
+        FloatingActionButton(
+            onClick = {
+                userDetailsViewModel.saveUserProfile(name.text, age.text.toInt(), weight.text.toFloat())
+            },
+            containerColor = Color.Black,
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .clip(RoundedCornerShape(15.dp))
+        ) {
+            Icon(
+                Icons.Outlined.KeyboardArrowRight,
+                tint = Color.White,
+                contentDescription = "Localized description"
+            )
+        }
     }
 }
 
 @Preview
 @Composable
 fun onBoardingScreenTitlePrev() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-    ) {
-        Spacer(modifier = Modifier.height(120.dp))
-        onBoardingScreenTitle(modifier = Modifier.fillMaxWidth())
-        Spacer(modifier = Modifier.height(90.dp))
 
-        onBoardingScreenData()
-        FloatingActionButton(
-            onClick = { /* do something */ },
-            containerColor = Color.Black,
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .clip(RoundedCornerShape(15.dp, 15.dp, 15.dp, 15.dp))
-        ) {
-            Icon(
-                Icons.Outlined.KeyboardArrowRight,
-                tint = Color.White,
-                contentDescription = "Localized description")
-        }
-    }
 
 }

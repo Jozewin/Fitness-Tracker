@@ -82,6 +82,9 @@ dependencies {
     kapt("com.google.dagger:hilt-android-compiler:2.51.1")
 
 
+    kapt("androidx.hilt:hilt-compiler:1.2.0")
+    implementation ("androidx.hilt:hilt-navigation-compose:1.2.0")
+
     //Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
 
@@ -100,6 +103,13 @@ dependencies {
 
     //Accompanist
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.31.4-beta")
+
+
+    //Room
+    val room_version = "2.5.2"
+    implementation ("androidx.room:room-runtime:$room_version")
+    kapt ("androidx.room:room-compiler:$room_version")
+    implementation ("androidx.room:room-ktx:2.5.2")
 
 }
 

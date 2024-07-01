@@ -11,6 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.joze.fitnesstracking.presentation.onBoarding.OnBoardingScreenViewModel
 import com.joze.fitnesstracking.presentation.onBoarding.onBoardingScreen
 import com.joze.fitnesstracking.ui.theme.FitnessTrackingTheme
@@ -27,10 +28,10 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val viewModel : OnBoardingScreenViewModel by viewModels()
+                    val viewModel : OnBoardingScreenViewModel = hiltViewModel()
 
 //                    val viewModel : OnBoardingScreenViewModel by viewModels()
-                    onBoardingScreen(onEvents = viewModel::onEvents)
+                    onBoardingScreen()
                 }
             }
         }
