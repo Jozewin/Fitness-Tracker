@@ -39,9 +39,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun onBoardingScreen(
-    //onEvents: (OnBoardingScreenEvents) -> Unit,
-
-    
+    userDetailsViewModel: OnBoardingScreenViewModel = hiltViewModel()
 ) {
     Column(
         modifier = Modifier
@@ -51,7 +49,7 @@ fun onBoardingScreen(
         onBoardingScreenTitle(modifier = Modifier.fillMaxWidth())
         Spacer(modifier = Modifier.height(90.dp))
 
-        onBoardingScreenData()
+        onBoardingScreenData(onEvents = userDetailsViewModel::onEvents)
         
     }
 
@@ -87,7 +85,8 @@ fun onBoardingScreenTitle(modifier: Modifier = Modifier) {
 
 @Composable
 fun onBoardingScreenData(
-    userDetailsViewModel: OnBoardingScreenViewModel = hiltViewModel()
+    userDetailsViewModel: OnBoardingScreenViewModel = hiltViewModel(),
+    onEvents: (OnBoardingScreenEvents) -> Unit
 
 ) {
     var name by remember { mutableStateOf(TextFieldValue(userDetailsViewModel.userDetails?.name ?: "")) }
@@ -137,6 +136,7 @@ fun onBoardingScreenData(
         FloatingActionButton(
             onClick = {
                 userDetailsViewModel.saveUserProfile(name.text, age.text.toInt(), weight.text.toFloat())
+                onEvents(OnBoardingScreenEvents.SaveAppEntry)
             },
             containerColor = Color.Black,
             modifier = Modifier

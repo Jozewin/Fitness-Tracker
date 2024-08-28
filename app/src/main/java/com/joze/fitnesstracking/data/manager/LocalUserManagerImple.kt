@@ -30,9 +30,10 @@ class LocalUserManagerImple @Inject constructor(
     }
 }
 
-val Context.dataStore : DataStore<Preferences> by preferencesDataStore(
-    name = USER_SETTINGS
-)
+
+private val readOnlyProperty = preferencesDataStore(name = USER_SETTINGS)
+
+val Context.dataStore: DataStore<Preferences> by readOnlyProperty
 
 private object PreferencesKeys{
     val APP_ENTRY = booleanPreferencesKey(Constants.APP_ENTRY)
