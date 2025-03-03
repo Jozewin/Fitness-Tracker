@@ -1,5 +1,6 @@
 package com.joze.fitnesstracking.util
 
+
 object Constants {
 
     const val USER_SETTINGS = "userSettings"
